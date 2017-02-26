@@ -1,5 +1,5 @@
-var cols = 25;
-var rows = 25;
+var cols = 50;
+var rows = 50;
 var grid = new Array(cols);
 
 var openSet = [];
@@ -16,8 +16,8 @@ removeFromArr = (a, e) => {
 
 heuristic = (a, b) => {
   // get the euclidian distance between a & b
-  // var d = dist(a.i, a.j, b.i, b.j);
-  var d = abs(a.i, b.i) + abs(a.j, b.j);
+  var d = dist(a.i, a.j, b.i, b.j);
+  // var d = abs(a.i, b.i) + abs(a.j, b.j);
   return d;
 }
 
@@ -58,7 +58,6 @@ Spot.prototype.addNeighbors = function(grid) {
 }
 
 setup = () => {
-  background(0);
   createCanvas(500, 500);
 
   w = width / cols;
@@ -86,7 +85,7 @@ setup = () => {
   end.wall = false;
   openSet.push(start);
 
-  console.table(grid);
+  // console.table(grid);
 
 }
 
@@ -112,7 +111,7 @@ draw = () => {
     var neighbors = current.neighbors;
     neighbors.forEach((n,i) => {
       if (!closedSet.includes(n) && !n.wall) {
-        var tempG = current.g + 1;
+        var tempG = current.g + heuristic(n, current);
         if (openSet.includes(n)) {
           if (tempG < n.g) {
             n.g = tempG;
@@ -129,6 +128,7 @@ draw = () => {
 
   } else {
     // no solution
+    console.log("No Solution.");
   }
 
   background(0);
