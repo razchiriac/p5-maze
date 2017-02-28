@@ -8,6 +8,7 @@ var start;
 var end;
 var w, h;
 var path;
+var noSolution = false;
 
 removeFromArr = (a, e) => {
   var i = a.lastIndexOf(e);
@@ -129,6 +130,8 @@ draw = () => {
   } else {
     // no solution
     console.log("No Solution.");
+    noSolution = true;
+    noLoop();
   }
 
   background(0);
@@ -145,15 +148,18 @@ draw = () => {
     openSet[i].show(color(0,255,0));
   }
   // Find the path
-  path = [];
-  var temp = current;
-  path.push(temp);
-  while (temp.previous) {
-    path.push(temp.previous);
-    temp = temp.previous;
+  if (!noSolution) {
+    path = [];
+    var temp = current;
+    path.push(temp);
+    while (temp.previous) {
+      path.push(temp.previous);
+      temp = temp.previous;
+    }
   }
+
   path.forEach(i => {
-    i.show(color(0,0,255));
+    i.show(color(50,0,255));
   })
 
 }
